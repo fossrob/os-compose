@@ -34,14 +34,14 @@ jobs:
         os: [ "fedora-silverblue", "fedora-minimal" ]
 
     container:
-      # image: quay.io/fedora/fedora-coreos:stable
-      image: quay.io/fedora/fedora-minimal:latest
+      image: quay.io/fedora/fedora-coreos:stable
+      # image: quay.io/fedora/fedora-minimal:latest
       options: '--user root --privileged -v /var/tmp:/var/tmp -v /tmp:/tmp'
 
     steps:
       - name: Install dependencies
-        # run: rpm-ostree install --disablerepo='*' --enablerepo='fedora' --enablerepo='updates' distribution-gpg-keys
-        run: dnf5 install -y rpm-ostree distribution-gpg-keys git-core podman
+        run: rpm-ostree install --disablerepo='*' --enablerepo='fedora' --enablerepo='updates' distribution-gpg-keys
+        # run: dnf5 install -y rpm-ostree distribution-gpg-keys git-core podman
 
       - name: Checkout repository
         uses: actions/checkout@v3
