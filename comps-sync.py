@@ -56,10 +56,10 @@ print("# {}".format(args.environment))
 print("include:")
 print("  # mandatory groups")
 for g in mandatory_groups:
-    print("  - {}".format(g.name))
+    print("  - comps/{}.yaml".format(g.name))
 print("  # optional groups")
 for g in optional_groups:
-    print("  # - {}".format(g.name))
+    print("  # - comps/{}.yaml".format(g.name))
 
 # iterate through groups pulling out mandatory and default packages
 group_packages = {}

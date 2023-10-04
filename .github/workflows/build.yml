@@ -45,7 +45,7 @@ jobs:
         run: podman login --username ${{ github.actor }} --password ${{ github.token }} ${{ env.registry }}
 
       - name: Install dependencies
-        run: rpm-ostree install distribution-gpg-keys
+        run: rpm-ostree install --disablerepo='*' --enablerepo='fedora' --enablerepo='updates' distribution-gpg-keys
 
       - name: Force initialize
         run: echo "force_initialize=1" >> $GITHUB_ENV

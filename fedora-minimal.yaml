@@ -16,11 +16,11 @@ exclude-packages: []
 # minimal-environment
 include:
   # mandatory groups
-  - core
+  - comps/core.yaml
   # optional groups
-  - standard
-  - guest-agents
-  - networkmanager-submodules
+  - comps/standard.yaml
+  - comps/guest-agents.yaml
+  - comps/networkmanager-submodules.yaml
 
 check-groups:
   filename: group
