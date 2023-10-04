@@ -1,0 +1,47 @@
+---
+name: compose-os
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - LICENSE
+      - '**.md'
+      - '**.txt'
+  schedule:
+    - cron: 30 0,6,12,18 * * *
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ "fedora-silverblue" ]
+
+    container:
+      image: quay.io/fedora/fedora-coreos:stable
+      options: '--user root --privileged -v /var/tmp:/var/tmp -v /tmp:/tmp'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Log in to registry
+        uses: redhat-actions/podman-login@v1
+        with:
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+          registry: ghcr.io/${{ github.repository_owner }}
+
+      - name: Install dependencies
+        run: rpm-ostree install distribution-gpg-keys
+
+      - run: echo "force_initialize=1" >> $GITHUB_ENV
+        if: github.event_name == 'workflow_dispatch'
+
+      - name: Build ostree container
+        run: rpm-ostree compose image --format=registry ${force_initialize:+--initialize} ${{ matrix.os }}.yaml ghcr.io/${{ github.repository_owner }}/${{ matrix.os }}
