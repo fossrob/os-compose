@@ -20,6 +20,10 @@ concurrency:
 env:
   registry: ghcr.io
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,10 +32,6 @@ jobs:
       fail-fast: false
       matrix:
         os: [ "fedora-silverblue", "fedora-minimal" ]
-
-    permissions:
-      contents: read
-      packages: write
 
     container:
       image: quay.io/fedora/fedora-coreos:stable

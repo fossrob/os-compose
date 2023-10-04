@@ -13,4 +13,14 @@ comps-sync:
     fi
 
 manifest compose_file:
-  yq -y . <<<$(rpm-ostree compose tree --print-only --repo=repo {{compose_file}})
+    #!/bin/bash
+    set -euxo pipefail
+
+    yq -y . <<<$(rpm-ostree compose tree --print-only --repo=repo {{compose_file}})
+
+packages compose_file:
+    #!/bin/bash
+    set -euxo pipefail
+
+    echo "packages:"
+    yq -y . <<<$(rpm-ostree compose tree --print-only --repo=repo {{compose_file}} | jq .packages)

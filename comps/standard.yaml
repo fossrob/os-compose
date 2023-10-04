@@ -50,7 +50,7 @@ packages:
   - pciutils
   - pinfo
   - plocate
-  - psacct
+  # - psacct  # breaks compose
   - quota
   - realmd
   - rsync
