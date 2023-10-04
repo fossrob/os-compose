@@ -40,6 +40,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
           registry: ghcr.io
+          auth_file_path: /github/home/.docker/config.json
 
       - name: Install dependencies
         run: rpm-ostree install distribution-gpg-keys
