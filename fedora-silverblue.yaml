@@ -1,3 +1,14 @@
+---
+automatic-version-prefix: "39"
+basearch: x86_64
+mutate-os-release: "39"
+ref: fedora/39/x86_64/silverblue
+releasever: 39
+
+repos:
+  - fedora
+  - fedora-updates
+
 packages:
   - ModemManager
   - NetworkManager
@@ -290,47 +301,48 @@ packages:
   - yelp
   - zip
   - zram-generator-defaults
-ref: fedora/39/x86_64/silverblue
-basearch: x86_64
-rojig:
-  name: fedora-silverblue
-  summary: Fedora Silverblue base image
-  license: MIT
-  description: null
-repos:
-  - fedora
-  - fedora-updates
-selinux: true
+
 exclude-packages:
   - PackageKit
-  - gstreamer1-plugin-openh264
-  - mozilla-openh264
-  - openh264
   - dnf
   - dnf-data
   - dnf-plugins-core
   - dnf5
   - dnf5-plugins
-documentation: true
-boot-location: modules
-tmp-is-dir: true
-default-target: graphical.target
-releasever: 39
-automatic-version-prefix: '39'
-mutate-os-release: '39'
+  - gstreamer1-plugin-openh264
+  - mozilla-openh264
+  - openh264
+
+check-groups:
+  filename: group
+  type: file
+
+check-passwd:
+  filename: passwd
+  type: file
+
 etc-group-members:
   - wheel
-check-passwd:
-  type: file
-  filename: passwd
-check-groups:
-  type: file
-  filename: group
-ignore-removed-users:
-  - root
+
 ignore-removed-groups:
   - root
-postprocess-script: postprocess.sh
+
+ignore-removed-users:
+  - root
+
+boot-location: modules
+container-cmd:
+  - /usr/bin/bash
+default-target: graphical.target
+documentation: true
+rojig:
+  description: null
+  license: MIT
+  name: fedora-silverblue
+  summary: Fedora Silverblue base image
+selinux: true
+tmp-is-dir: true
+
 postprocess:
   - |
     #!/usr/bin/env bash
@@ -364,5 +376,5 @@ postprocess:
 
     # Workaround for https://bugzilla.redhat.com/show_bug.cgi?id=2218006
     systemctl enable nfs-client.target
-container-cmd:
-  - /usr/bin/bash
+
+postprocess-script: postprocess.sh
