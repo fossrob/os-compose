@@ -1,0 +1,51 @@
+# core group
+packages:
+  # mandatory packages
+  - audit
+  - basesystem
+  - bash
+  - coreutils
+  - curl
+  - dhcp-client
+  - dnf
+  - e2fsprogs
+  - filesystem
+  - glibc
+  - hostname
+  - iproute
+  - iputils
+  - kbd
+  - less
+  - man-db
+  - ncurses
+  - openssh-clients
+  - openssh-server
+  - parted
+  - passwd
+  - policycoreutils
+  - procps-ng
+  - rootfiles
+  - rpm
+  - selinux-policy-targeted
+  - setup
+  - shadow-utils
+  - sssd-common
+  - sssd-kcm
+  - sudo
+  - systemd
+  - util-linux
+  - vim-minimal
+  - yum
+  # default packages
+  - NetworkManager
+  - dnf-plugins-core
+  - dracut-config-rescue
+  - firewalld
+  - fwupd
+  - plymouth
+  - systemd-resolved
+  - zram-generator-defaults
+  # optional packages
+  # - dracut-config-generic
+  # - initial-setup
+  # - initscripts

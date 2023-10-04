@@ -1,0 +1,5 @@
+# guest-agents group
+packages:
+  # mandatory packages
+  - open-vm-tools
+  - qemu-guest-agent

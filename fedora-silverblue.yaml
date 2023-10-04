@@ -335,11 +335,6 @@ container-cmd:
   - /usr/bin/bash
 default-target: graphical.target
 documentation: true
-rojig:
-  description: null
-  license: MIT
-  name: fedora-silverblue
-  summary: Fedora Silverblue base image
 selinux: true
 tmp-is-dir: true
 

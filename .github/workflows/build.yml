@@ -27,7 +27,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ "fedora-silverblue", "fedora-custom" ]
+        os: [ "fedora-silverblue", "fedora-minimal" ]
 
     permissions:
       contents: read

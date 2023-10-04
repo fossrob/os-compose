@@ -1,0 +1,10 @@
+# networkmanager-submodules group
+packages:
+  # default packages
+  - NetworkManager-bluetooth
+  - NetworkManager-wifi
+  - NetworkManager-wwan
+  - dhcp-client
+  - dnsmasq
+  - iptables-nft
+  - wpa_supplicant

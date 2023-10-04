@@ -1,0 +1,8 @@
+.buildid
+cache
+fedora-comps
+logs
+manifest.*
+repo
+sysroot
+venv
