@@ -9,7 +9,20 @@ repos:
   - fedora-updates
   - fedora-cisco-openh264
 
-packages: []
+packages:
+# boot
+  - efibootmgr
+  - grub2
+  - grub2-efi-x64
+  - shim
+# kernel
+  - kernel
+  - kernel-modules
+  - kernel-modules-extra
+# workstation-ostree-support
+  - nss-altfiles
+  - ostree-grub2
+  - rpm-ostree
 
 exclude-packages: []
 
