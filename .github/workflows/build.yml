@@ -63,7 +63,9 @@ jobs:
           key: ${{ runner.os }}-rpm-ostree-cache
 
       - name: Build ostree container
-        run: rpm-ostree compose image --format=registry --initialize-mode if-not-exists ${{ matrix.os }}.yaml ${{ env.registry }}/${{ github.repository_owner }}/${{ matrix.os }}
+        run: |
+          mkdir -p cache
+          rpm-ostree compose image --format=registry --initialize-mode if-not-exists --cachedir cache ${{ matrix.os }}.yaml ${{ env.registry }}/${{ github.repository_owner }}/${{ matrix.os }}
 
       - name: Save cache
         id: cache-save
