@@ -20,10 +20,6 @@ concurrency:
 env:
   registry: ghcr.io
 
-permissions:
-  contents: read
-  packages: write
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -37,6 +33,10 @@ jobs:
       image: quay.io/fedora/fedora-coreos:stable
       # image: quay.io/fedora/fedora-minimal:latest
       options: '--user root --privileged -v /var/tmp:/var/tmp -v /tmp:/tmp'
+
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Install dependencies
