@@ -42,7 +42,7 @@ jobs:
     steps:
       - name: Install dependencies
         # run: rpm-ostree install --disablerepo='*' --enablerepo='fedora' --enablerepo='updates' distribution-gpg-keys
-        run: dnf5 install -y distribution-gpg-keys git-core just podman rpm-ostree selinux-policy-targeted tar
+        run: dnf5 --setopt=install_weak_deps=false install -y distribution-gpg-keys fuse-overlayfs git-core just podman rpm-ostree selinux-policy-targeted tar
 
       - name: Checkout repository
         uses: actions/checkout@v3
