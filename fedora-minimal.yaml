@@ -31,9 +31,9 @@ include:
   # mandatory groups
   - comps/core.yaml
   # optional groups
-  - comps/standard.yaml
-  - comps/guest-agents.yaml
-  - comps/networkmanager-submodules.yaml
+  # - comps/standard.yaml
+  # - comps/guest-agents.yaml
+  # - comps/networkmanager-submodules.yaml
 
 check-groups:
   filename: group

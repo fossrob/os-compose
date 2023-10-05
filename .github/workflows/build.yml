@@ -31,7 +31,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ "fedora-minimal", "fedora-silverblue" ]
+        # os: [ "fedora-minimal", "fedora-silverblue" ]
+        os: [ "fedora-minimal" ]
 
     container:
       # image: quay.io/fedora/fedora-coreos:stable
@@ -53,5 +54,21 @@ jobs:
       #   run: echo "force_initialize=1" >> $GITHUB_ENV
       #   if: github.event_name == 'workflow_dispatch'
 
+      - name: Restore cache
+        id: cache-restore
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            cache
+          key: ${{ runner.os }}-rpm-ostree-cache
+
       - name: Build ostree container
         run: rpm-ostree compose image --format=registry --initialize-mode if-not-exists ${{ matrix.os }}.yaml ${{ env.registry }}/${{ github.repository_owner }}/${{ matrix.os }}
+
+      - name: Save cache
+        id: cache-save
+        uses: actions/cache/save@v3
+        with:
+          path: |
+            cache
+          key: ${{ steps.cache-restore.outputs.cache-primary-key }}

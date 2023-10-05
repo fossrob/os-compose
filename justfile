@@ -67,3 +67,13 @@ dry-run compose_file:
     if [[ ${EUID} -ne 0 ]]; then
         sudo chown --recursive "$(id --user --name):$(id --group --name)" repo cache
     fi
+
+compose-image compose_file:
+    #!/bin/bash
+    set -euxo pipefail
+
+    just prep
+
+    VARIANT=$(echo "{{compose_file}}" | sed -re 's/\.yaml$//')
+
+    rpm-ostree compose image --format=ociarchive --cachedir=cache --initialize {{compose_file}} ${VARIANT}.ociarchive
