@@ -2,13 +2,13 @@
 name: compose-os
 
 on:
-  # push:
-  #   branches:
-  #     - main
-  #   paths-ignore:
-  #     - LICENSE
-  #     - '**.md'
-  #     - '**.txt'
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - LICENSE
+      - '**.md'
+      - '**.txt'
   # schedule:
   #   - cron: 30 0,6,12,18 * * *
   workflow_dispatch: {}
@@ -34,14 +34,14 @@ jobs:
         os: [ "fedora-minimal", "fedora-silverblue" ]
 
     container:
-      image: quay.io/fedora/fedora-coreos:stable
-      # image: quay.io/fedora/fedora-minimal:latest
+      # image: quay.io/fedora/fedora-coreos:stable
+      image: quay.io/fedora/fedora-minimal:39
       options: '--user root --privileged -v /var/tmp:/var/tmp -v /tmp:/tmp'
 
     steps:
       - name: Install dependencies
-        run: rpm-ostree install --disablerepo='*' --enablerepo='fedora' --enablerepo='updates' distribution-gpg-keys
-        # run: dnf5 install -y rpm-ostree distribution-gpg-keys git-core podman
+        # run: rpm-ostree install --disablerepo='*' --enablerepo='fedora' --enablerepo='updates' distribution-gpg-keys
+        run: dnf5 install -y distribution-gpg-keys git-core just podman rpm-ostree selinux-policy-targeted tar
 
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -49,9 +49,9 @@ jobs:
       - name: Log in to registry
         run: podman login --username ${{ github.actor }} --password ${{ github.token }} ${{ env.registry }}
 
-      - name: Force initialize
-        run: echo "force_initialize=1" >> $GITHUB_ENV
-        if: github.event_name == 'workflow_dispatch'
+      # - name: Force initialize
+      #   run: echo "force_initialize=1" >> $GITHUB_ENV
+      #   if: github.event_name == 'workflow_dispatch'
 
       - name: Build ostree container
-        run: rpm-ostree compose image --format=registry ${force_initialize:+--initialize} ${{ matrix.os }}.yaml ${{ env.registry }}/${{ github.repository_owner }}/${{ matrix.os }}
+        run: rpm-ostree compose image --format=registry --initialize-mode if-not-exists ${{ matrix.os }}.yaml ${{ env.registry }}/${{ github.repository_owner }}/${{ matrix.os }}
