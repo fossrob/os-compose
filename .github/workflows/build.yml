@@ -13,12 +13,16 @@ on:
     - cron: 30 0,6,12,18 * * *
   workflow_dispatch: {}
 
-concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: true
+# concurrency:
+#   group: ${{ github.ref }}
+#   cancel-in-progress: true
 
 env:
   registry: ghcr.io
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   build:
@@ -27,16 +31,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ "fedora-silverblue", "fedora-minimal" ]
+        os: [ "fedora-minimal", "fedora-silverblue" ]
 
     container:
       image: quay.io/fedora/fedora-coreos:stable
       # image: quay.io/fedora/fedora-minimal:latest
       options: '--user root --privileged -v /var/tmp:/var/tmp -v /tmp:/tmp'
-
-    permissions:
-      contents: read
-      packages: write
 
     steps:
       - name: Install dependencies
