@@ -2,20 +2,20 @@
 name: compose-os
 
 on:
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - LICENSE
-      - '**.md'
-      - '**.txt'
-  schedule:
-    - cron: 30 0,6,12,18 * * *
+  # push:
+  #   branches:
+  #     - main
+  #   paths-ignore:
+  #     - LICENSE
+  #     - '**.md'
+  #     - '**.txt'
+  # schedule:
+  #   - cron: 30 0,6,12,18 * * *
   workflow_dispatch: {}
 
-# concurrency:
-#   group: ${{ github.ref }}
-#   cancel-in-progress: true
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   registry: ghcr.io
