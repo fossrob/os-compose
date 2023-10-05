@@ -60,7 +60,7 @@ jobs:
         with:
           path: |
             cache
-          key: ${{ runner.os }}-rpm-ostree-cache
+          key: rpm-ostree-cache
 
       - name: Build ostree container
         run: |

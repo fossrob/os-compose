@@ -7,7 +7,6 @@ basearch: x86_64
 repos:
   - fedora
   - fedora-updates
-  - fedora-cisco-openh264
 
 packages:
 # boot
@@ -15,8 +14,10 @@ packages:
   - grub2
   - grub2-efi-x64
   - shim
-# kernel
+# dracut
   - binutils
+  - pigz
+# kernel
   - kernel
   - kernel-modules
   - kernel-modules-extra
@@ -59,7 +60,7 @@ container-cmd:
 # default-target: graphical.target
 documentation: true
 machineid-compat: false
-recommends: true
+recommends: false
 # rpmdb: host
 selinux: true
 tmp-is-dir: true

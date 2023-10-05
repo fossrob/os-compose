@@ -7,8 +7,8 @@ packages:
   - coreutils
   - curl
   - dhcp-client
-  - dnf
-  - e2fsprogs
+  # - dnf  # we are using rpm-ostree
+  # - e2fsprogs
   - filesystem
   - glibc
   - hostname
@@ -20,7 +20,7 @@ packages:
   - ncurses
   - openssh-clients
   - openssh-server
-  - parted
+  # - parted
   - passwd
   - policycoreutils
   - procps-ng
@@ -29,20 +29,20 @@ packages:
   - selinux-policy-targeted
   - setup
   - shadow-utils
-  - sssd-common
-  - sssd-kcm
+  # - sssd-common
+  # - sssd-kcm
   - sudo
   - systemd
   - util-linux
   - vim-minimal
-  - yum
+  # - yum
   # default packages
   - NetworkManager
-  - dnf-plugins-core
-  - dracut-config-rescue
+  # - dnf-plugins-core
+  # - dracut-config-rescue
   - firewalld
-  - fwupd
-  - plymouth
+  # - fwupd
+  # - plymouth
   - systemd-resolved
   - zram-generator-defaults
   # optional packages

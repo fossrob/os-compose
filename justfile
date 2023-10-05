@@ -76,4 +76,19 @@ compose-image compose_file:
 
     VARIANT=$(echo "{{compose_file}}" | sed -re 's/\.yaml$//')
 
-    rpm-ostree compose image --format=ociarchive --cachedir=cache --initialize {{compose_file}} ${VARIANT}.ociarchive
+    ARGS="--cachedir cache --format=ociarchive --initialize-mode if-not-exists"
+
+    if [[ {{force_nocache}} == "true" ]]; then
+        ARGS+=" --force-nocache"
+    fi
+
+    CMD="rpm-ostree"
+    if [[ ${EUID} -ne 0 ]]; then
+        CMD="sudo rpm-ostree"
+    fi
+
+    ${CMD} compose image ${ARGS} {{compose_file}} ${VARIANT}.ociarchive
+
+    if [[ ${EUID} -ne 0 ]]; then
+        sudo chown --recursive "$(id --user --name):$(id --group --name)" cache
+    fi
