@@ -8,6 +8,8 @@ repos:
   - fedora
   - fedora-updates
 
+recommends: false
+
 packages:
 # boot
   - efibootmgr
@@ -16,6 +18,7 @@ packages:
   - shim
 # dracut
   - binutils
+  - memstrack
   - pigz
 # kernel
   - kernel
@@ -54,13 +57,13 @@ ignore-removed-groups:
 ignore-removed-users:
   - root
 
-boot-location: modules
 container-cmd:
   - /usr/bin/bash
+
+boot-location: modules
 # default-target: graphical.target
 documentation: true
 machineid-compat: false
-recommends: false
 # rpmdb: host
 selinux: true
 tmp-is-dir: true
