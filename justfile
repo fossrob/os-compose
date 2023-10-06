@@ -64,19 +64,21 @@ dry-run compose_file:
         | grep '^  ' | sed -re 's/^\s+//' -e 's/\ (.*)$//' -e 's/\.fc39.*//' \
             > packages.${VARIANT}
 
-    if [[ ${EUID} -ne 0 ]]; then
-        sudo chown --recursive "$(id --user --name):$(id --group --name)" repo cache
-    fi
+    just fix-perms
+
+registry:
+    podman run --rm --detach --pull always --publish 5000:5000 --volume ~/docker-registry:/var/lib/registry --name registry registry:latest || true
 
 compose-image compose_file:
     #!/bin/bash
     set -euxo pipefail
 
     just prep
+    just registry
 
     VARIANT=$(echo "{{compose_file}}" | sed -re 's/\.yaml$//')
 
-    ARGS="--cachedir cache --format=ociarchive --initialize"
+    ARGS="--cachedir cache --format=registry --initialize-mode=if-not-exists"
 
     if [[ {{force_nocache}} == "true" ]]; then
         ARGS+=" --force-nocache"
@@ -87,8 +89,20 @@ compose-image compose_file:
         CMD="sudo rpm-ostree"
     fi
 
-    ${CMD} compose image ${ARGS} {{compose_file}} ${VARIANT}.ociarchive
+    ${CMD} compose image ${ARGS} {{compose_file}} "localhost:5000/fedora-${variant}"
+
+    just fix-perms
+
+layer-image:
+    just registry
+
+    podman build --tag fedora-test --file Containerfile
+    podman push localhost/fedora-test localhost:5000/fedora-test
+
+fix-perms:
+    #!/bin/bash
+    set -euxo pipefail
 
     if [[ ${EUID} -ne 0 ]]; then
-        sudo chown --recursive "$(id --user --name):$(id --group --name)" cache
+        sudo chown --recursive "$(id --user --name):$(id --group --name)" cache repo
     fi

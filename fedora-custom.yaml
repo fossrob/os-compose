@@ -71,8 +71,8 @@ packages:
   - nvme-cli
   - pciutils
   - vim-default-editor
-  # - wl-clipboard  # command-line wayland clipboard utilities
-  # - zstd  # not sure if anything uses it
+  - wl-clipboard  # command-line wayland clipboard utilities
+  - zstd  # not sure if anything uses it
 # rpmfusion
   - rpmfusion-free-release
   - rpmfusion-nonfree-release
