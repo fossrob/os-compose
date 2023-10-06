@@ -34,7 +34,6 @@ jobs:
         os: [ "fedora-minimal", "fedora-custom", "fedora-silverblue" ]
 
     container:
-      # image: quay.io/fedora/fedora-coreos:stable
       image: quay.io/fedora/fedora-minimal:39
       options: '--user root --privileged -v /var/tmp:/var/tmp -v /tmp:/tmp'
 
@@ -46,7 +45,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Log in to registry
-        run: podman login --username ${{ github.actor }} --password ${{ github.token }} ${{ env.registry }}
+        run: podman login --username ${{ github.actor }} --password ${{ github.token }} ${{ env.registry }}/${{ github.repository_owner }}
 
       - name: Build ostree container
         run: |
@@ -54,4 +53,4 @@ jobs:
           rpm-ostree compose image --format=registry --initialize-mode if-not-exists --cachedir cache ${{ matrix.os }}.yaml ${{ env.registry }}/${{ github.repository_owner }}/${{ matrix.os }}
 
       - name: Log out of registry
-        run: podman logout
+        run: podman logout ${{ env.registry }}/${{ github.repository_owner }}

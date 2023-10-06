@@ -1,36 +1,84 @@
-# gnome-desktop
+# gnome-desktop group
 packages:
   # mandatory packages
   - dconf
   - gdm
+  # - gnome-boxes
+  # - gnome-connections
   - gnome-control-center
+  # - gnome-initial-setup
   - gnome-session-wayland-session
   - gnome-session-xsession
   - gnome-settings-daemon
   - gnome-shell
+  # - gnome-software
+  # - gnome-terminal
+  # - gnome-text-editor
   - nautilus
   - polkit
   - yelp
   # default packages
   - ModemManager
+  # - NetworkManager-adsl
+  # - NetworkManager-openconnect-gnome
+  # - NetworkManager-openvpn-gnome
+  # - NetworkManager-ppp
+  # - NetworkManager-pptp-gnome
+  # - NetworkManager-ssh-gnome
+  # - NetworkManager-vpnc-gnome
   - NetworkManager-wwan
+  # - PackageKit-command-not-found
+  # - PackageKit-gtk3-module
+  # - adobe-source-code-pro-fonts
   - at-spi2-atk
   - at-spi2-core
   - avahi
+  # - baobab
+  # - cheese
+  # - evince
+  # - evince-djvu
   - fprintd-pam
   - glib-networking
   - gnome-backgrounds
   - gnome-bluetooth
+  # - gnome-browser-connector
+  # - gnome-calculator
+  # - gnome-calendar
+  # - gnome-characters
+  # - gnome-classic-session
+  # - gnome-clocks
+  # - gnome-color-manager
+  # - gnome-contacts
+  # - gnome-disk-utility
+  # - gnome-font-viewer
+  # - gnome-logs
+  # - gnome-maps
   - gnome-remote-desktop
   - gnome-system-monitor
+  # - gnome-terminal-nautilus
   - gnome-user-docs
+  # - gnome-user-share
+  # - gnome-weather
+  # - gvfs-afc
+  # - gvfs-afp
   - gvfs-archive
   - gvfs-fuse
   - gvfs-goa
+  # - gvfs-gphoto2
+  # - gvfs-mtp
+  # - gvfs-smb
   - librsvg2
+  # - libsane-hpaio
+  # - loupe
   - mesa-dri-drivers
   - mesa-libEGL
+  # - orca
+  # - rygel
+  # - sane-backends-drivers-scanners
+  # - simple-scan
+  # - sushi
   - systemd-oomd-defaults
+  # - totem
   - tracker
   - tracker-miners
   - xdg-desktop-portal

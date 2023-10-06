@@ -1,0 +1,29 @@
+# printing group
+packages:
+  # mandatory packages
+  - cups
+  - cups-filters
+  - ghostscript
+  # default packages
+  - bluez-cups
+  - colord
+  - cups-browsed
+  - cups-pk-helper
+  - gutenprint
+  - gutenprint-cups
+  - hplip
+  - mpage
+  - nss-mdns
+  - paps
+  - samba-client
+  - system-config-printer-udev
+  # optional packages
+  # - a2ps
+  # - cups-pdf
+  # - enscript
+  # - foomatic
+  # - foomatic-db-ppds
+  # - pnm2ppa
+  # - ptouch-driver
+  # - splix
+  # - system-config-printer

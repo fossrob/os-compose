@@ -33,20 +33,13 @@ packages:
   - nss-altfiles
   - ostree-grub2
   - rpm-ostree
-# containers
-  - buildah
-  - flatpak
-  - podman
-  - skopeo
-  - toolbox
 # from silverblue
   - distribution-gpg-keys
   - fedora-release-silverblue
   - fedora-repos-archive
   - fedora-repos-ostree
   - qgnomeplatform-qt5
-# fonts
-  - default-fonts-core
+  - qgnomeplatform-qt6
 # hardware codecs
   - libva-intel-driver
   - intel-media-driver
@@ -59,12 +52,13 @@ packages:
   - gstreamer1-plugins-ugly
   - gstreamer1-vaapi
   - pipewire-codec-aptx
-# gnome desktop
-  - adw-gtk3-theme
+# desktop
   - gnome-console
   - gnome-shell-extension-appindicator
   - gnome-tweaks
-  - input-leap
+  - plymouth
+  # - adw-gtk3-theme
+  # - input-leap
 # useful tools (fd-find, fzf, the_silver_searcher: dev container rather?)
   - binutils  # used during initramfs build for strip by rpm-ostree
   - dnf5
@@ -99,14 +93,26 @@ exclude-packages:
   - rygel  # upnp media server, recommended by gnome-control-center
   - sane-backends-drivers-cameras  # recommended by sane-backends-libs
 
-# minimal-environment
+add-files:
+  - ["tailscale.repo", "/etc/yum.repos.d/tailscale.repo"]
+  - ["terra.repo", "/etc/yum.repos.d/terra.repo"]
+  - ["vscode.repo", "/etc/yum.repos.d/vscode.repo"]
+
+# workstation-product-environment
 include:
+  # mandatory groups
   - comps/base-x.yaml
+  - comps/container-management.yaml
   - comps/core.yaml
+  # - comps/firefox.yaml
+  - comps/fonts.yaml
   - comps/gnome-desktop.yaml
   - comps/guest-desktop-agents.yaml
   - comps/hardware-support.yaml
+  # - comps/libreoffice.yaml
+  - comps/multimedia.yaml
   - comps/networkmanager-submodules.yaml
+  # - comps/printing.yaml
   - comps/workstation-product.yaml
 
 check-groups:
@@ -130,7 +136,7 @@ container-cmd:
   - /usr/bin/bash
 
 boot-location: modules
-# default-target: graphical.target
+default-target: graphical.target
 documentation: true
 machineid-compat: false
 # rpmdb: host
@@ -168,7 +174,7 @@ postprocess:
     rm -rf /etc/systemd/user/*
     systemctl --user --global preset-all
 
-    # # Workaround for https://bugzilla.redhat.com/show_bug.cgi?id=2218006
+    # Workaround for https://bugzilla.redhat.com/show_bug.cgi?id=2218006
     # systemctl enable nfs-client.target
 
 postprocess-script: postprocess.sh

@@ -1,4 +1,4 @@
-# hardware-support
+# hardware-support group
 packages:
   # default packages
   - alsa-sof-firmware
@@ -16,3 +16,28 @@ packages:
   - nvidia-gpu-firmware
   - realtek-firmware
   - usb_modeswitch
+  # optional packages
+  # - acpi
+  # - acpitool
+  # - alsa-firmware
+  # - atmel-firmware
+  # - cmospwd
+  # - dvb-firmware
+  # - gpsd
+  # - gpsd-clients
+  # - hddtemp
+  # - hdparm
+  # - iscan-firmware
+  # - libifp
+  # - liquidio-firmware
+  # - lsscsi
+  # - mlxsw_spectrum-firmware
+  # - mrvlprestera-firmware
+  # - multican
+  # - netronome-firmware
+  # - opensc
+  # - pcsc-lite
+  # - pcsc-lite-ccid
+  # - radeontop
+  # - wpan-tools
+  # - zd1211-firmware
