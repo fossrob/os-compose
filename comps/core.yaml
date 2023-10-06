@@ -6,7 +6,7 @@ packages:
   - bash
   - coreutils
   - curl
-  - dhcp-client
+  # - dhcp-client
   # - dnf  # we are using rpm-ostree
   # - e2fsprogs
   - filesystem

@@ -76,7 +76,7 @@ compose-image compose_file:
 
     VARIANT=$(echo "{{compose_file}}" | sed -re 's/\.yaml$//')
 
-    ARGS="--cachedir cache --format=ociarchive --initialize-mode if-not-exists"
+    ARGS="--cachedir cache --format=ociarchive --initialize"
 
     if [[ {{force_nocache}} == "true" ]]; then
         ARGS+=" --force-nocache"

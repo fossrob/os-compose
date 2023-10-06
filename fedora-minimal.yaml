@@ -1,7 +1,5 @@
 ---
 releasever: 39
-automatic-version-prefix: "39"
-mutate-os-release: "39"
 basearch: x86_64
 
 repos:

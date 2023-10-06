@@ -1,0 +1,18 @@
+# hardware-support
+packages:
+  # default packages
+  - alsa-sof-firmware
+  - amd-gpu-firmware
+  - atheros-firmware
+  - b43-fwcutter
+  - b43-openfwwf
+  - brcmfmac-firmware
+  - intel-gpu-firmware
+  - iwlegacy-firmware
+  - iwlwifi-dvm-firmware
+  - iwlwifi-mvm-firmware
+  - libertas-firmware
+  - mt7xxx-firmware
+  - nvidia-gpu-firmware
+  - realtek-firmware
+  - usb_modeswitch

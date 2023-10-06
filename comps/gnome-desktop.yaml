@@ -1,0 +1,39 @@
+# gnome-desktop
+packages:
+  # mandatory packages
+  - dconf
+  - gdm
+  - gnome-control-center
+  - gnome-session-wayland-session
+  - gnome-session-xsession
+  - gnome-settings-daemon
+  - gnome-shell
+  - nautilus
+  - polkit
+  - yelp
+  # default packages
+  - ModemManager
+  - NetworkManager-wwan
+  - at-spi2-atk
+  - at-spi2-core
+  - avahi
+  - fprintd-pam
+  - glib-networking
+  - gnome-backgrounds
+  - gnome-bluetooth
+  - gnome-remote-desktop
+  - gnome-system-monitor
+  - gnome-user-docs
+  - gvfs-archive
+  - gvfs-fuse
+  - gvfs-goa
+  - librsvg2
+  - mesa-dri-drivers
+  - mesa-libEGL
+  - systemd-oomd-defaults
+  - tracker
+  - tracker-miners
+  - xdg-desktop-portal
+  - xdg-desktop-portal-gnome
+  - xdg-desktop-portal-gtk
+  - xdg-user-dirs-gtk
