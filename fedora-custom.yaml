@@ -41,6 +41,7 @@ packages:
   - qgnomeplatform-qt5
   - qgnomeplatform-qt6
 # hardware codecs
+  - fwupd
   - libva-intel-driver
   - intel-media-driver
   # - mesa-va-drivers-freeworld

@@ -1,4 +1,4 @@
-FROM localhost:5000/fedora-custom
+FROM ghcr.io/fossrob/fedora-custom:latest
 
 ADD https://copr.fedorainfracloud.org/coprs/ublue-os/akmods/repo/fedora-39/ublue-os-akmods-fedora-39.repo \
       /etc/yum.repos.d/ublue-os-akmods-fedora-39.repo
