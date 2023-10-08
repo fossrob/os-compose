@@ -46,6 +46,7 @@ RUN echo "Customising packages & services..." && \
         kitty \
         libva-utils \
         lshw \
+        openssl \
         powertop \
         python3-pip python3-pyyaml \
         starship \

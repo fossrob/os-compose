@@ -2,7 +2,7 @@
 cache
 fedora-comps
 logs
-manifest.*
+packages.*
 repo
 sysroot
 venv
