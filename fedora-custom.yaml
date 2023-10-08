@@ -9,8 +9,10 @@ repos:
   - fedora-cisco-openh264
   - rpmfusion-free
   - rpmfusion-free-updates
+  - rpmfusion-free-updates-testing
   - rpmfusion-nonfree
   - rpmfusion-nonfree-updates
+  - rpmfusion-nonfree-updates-testing
   - tailscale-stable
 
 recommends: true
@@ -44,8 +46,8 @@ packages:
   - fwupd
   - libva-intel-driver
   - intel-media-driver
-  # - mesa-va-drivers-freeworld
-  # - mesa-vdpau-drivers-freeworld
+  - mesa-va-drivers-freeworld
+  - mesa-vdpau-drivers-freeworld
   # - nvidia-vaapi-driver
 # software codecs
   - ffmpeg
