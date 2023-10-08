@@ -1,0 +1,36 @@
+FROM ghcr.io/fossrob/fedora-custom:latest
+
+COPY --from=ghcr.io/ublue-os/akmods:main-39 /rpms /tmp/akmods-rpms
+
+RUN echo "Installing kmods..." && \
+      rpm-ostree install \
+        /tmp/akmods-rpms/kmods/kmod-v4l2loopback*.rpm \
+      && \
+    echo "...done!"
+
+RUN echo "Customising packages & services..." && \
+      # mkdir -p /var/lib/alternatives && \
+      rpm-ostree install --idempotent \
+        NetworkManager-openvpn-gnome \
+        bat fd-find fzf the_silver_searcher \
+        code \
+        fastfetch \
+        kitty \
+        libva-utils \
+        lshw \
+        openssl \
+        powertop \
+        python3-pip python3-pyyaml \
+        starship \
+        subscription-manager \
+        tlp tlp-rdw \
+        virt-manager \
+        wl-clipboard \
+        xeyes \
+      && \
+    echo "...done!"
+
+RUN echo "Clean up and commit..." && \
+      rm -rf /tmp/* /var/* && \
+      ostree container commit && \
+    echo "...done!"

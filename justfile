@@ -1,6 +1,8 @@
 # We're doing lots of local builds, take advantage of some caching
 force_nocache := "false"
 
+# podman image save ghcr.io/ublue-os/akmods:main-39 | tar xv --to-stdout '*.tar' --exclude layer.tar | tar xv
+
 comps-sync:
     #!/bin/bash
     set -euxo pipefail
@@ -89,15 +91,15 @@ compose-image compose_file:
         CMD="sudo rpm-ostree"
     fi
 
-    ${CMD} compose image ${ARGS} {{compose_file}} "localhost:5000/fedora-${variant}"
+    ${CMD} compose image ${ARGS} {{compose_file}} "localhost:5000/fedora-${VARIANT}"
 
     just fix-perms
 
-layer-image:
+layer-image container_tag:
     just registry
 
-    podman build --tag fedora-test --file Containerfile
-    podman push localhost/fedora-test localhost:5000/fedora-test
+    podman build --tag fedora-test:{{container_tag}} --file Containerfile.{{container_tag}}
+    podman push fedora-test:{{container_tag}} localhost:5000/fedora-test:{{container_tag}}
 
 fix-perms:
     #!/bin/bash
