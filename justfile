@@ -97,6 +97,27 @@ compose-image compose_file:
 
     just fix-perms
 
+compose-archive compose_file:
+    #!/bin/bash
+    set -euo pipefail
+
+    just prep
+    just registry
+
+    variant=$(echo "{{compose_file}}" | sed -re 's/\.yaml$//')
+
+    ARGS="--cachedir cache --format=ociarchive --initialize"
+    [[ {{force_nocache}} == "true" ]] && ARGS+=" --force-nocache"
+
+    CMD="rpm-ostree"
+    [[ ${EUID} -ne 0 ]] && CMD="sudo rpm-ostree"
+
+    ${CMD} compose image ${ARGS} {{compose_file}} ${variant}.ociarchive
+
+    skopeo copy oci-archive:fedora-minimal.ociarchive docker://localhost:5000/${variant}
+
+    just fix-perms
+
 layer-image container_tag:
     just registry
 
