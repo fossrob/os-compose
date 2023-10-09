@@ -3,6 +3,10 @@ force_nocache := "false"
 
 # podman image save ghcr.io/ublue-os/akmods:main-39 | tar xv --to-stdout '*.tar' --exclude layer.tar | tar xv
 
+container-list container:
+    podman pull --quiet {{container}}
+    podman image save {{container}} | tar --extract --to-stdout --exclude layer.tar '*.tar' | tar --list --verbose
+
 comps-sync:
     #!/bin/bash
     set -euo pipefail
@@ -118,11 +122,16 @@ compose-archive compose_file:
 
     just fix-perms
 
-layer-image container_tag:
+layer-image container_file:
+    #!/bin/bash
+    set -euo pipefail
+
     just registry
 
-    podman build --tag fedora-test:{{container_tag}} --file Containerfile.{{container_tag}}
-    podman push fedora-test:{{container_tag}} localhost:5000/fedora-test:{{container_tag}}
+    container_tag=$(echo "{{container_file}}" | sed -re 's/^Containerfile\.//')
+
+    podman build --tag fedora-test:${container_tag} --file {{container_file}}
+    podman push fedora-test:${container_tag} localhost:5000/fedora-test:${container_tag}
 
 fix-perms:
     #!/bin/bash
