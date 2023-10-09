@@ -12,7 +12,7 @@ packages:
   - tar
   - xorg-x11-drv-libinput
   # default packages
-  - NetworkManager-config-connectivity-fedora
+  # - NetworkManager-config-connectivity-fedora
   # - abrt-cli
   # - abrt-desktop
   # - abrt-java-connector

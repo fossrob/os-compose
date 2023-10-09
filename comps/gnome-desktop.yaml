@@ -26,7 +26,7 @@ packages:
   # - NetworkManager-pptp-gnome
   # - NetworkManager-ssh-gnome
   # - NetworkManager-vpnc-gnome
-  - NetworkManager-wwan
+  # - NetworkManager-wwan
   # - PackageKit-command-not-found
   # - PackageKit-gtk3-module
   # - adobe-source-code-pro-fonts

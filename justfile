@@ -5,7 +5,7 @@ force_nocache := "false"
 
 comps-sync:
     #!/bin/bash
-    set -euxo pipefail
+    set -euo pipefail
 
     if [[ ! -d fedora-comps ]]; then
         git clone https://pagure.io/fedora-comps.git
@@ -18,20 +18,20 @@ comps-sync:
 
 manifest compose_file:
     #!/bin/bash
-    set -euxo pipefail
+    set -euo pipefail
 
     yq -y . <<<$(rpm-ostree compose tree --print-only --repo=repo {{compose_file}})
 
 packages compose_file:
     #!/bin/bash
-    set -euxo pipefail
+    set -euo pipefail
 
     echo "packages:"
     yq -y . <<<$(rpm-ostree compose tree --print-only --repo=repo {{compose_file}} | jq .packages)
 
 prep:
     #!/bin/bash
-    set -euxo pipefail
+    set -euo pipefail
 
     mkdir -p repo cache
     if [[ ! -f "repo/config" ]]; then
@@ -45,53 +45,55 @@ prep:
 
 dry-run compose_file:
     #!/bin/bash
-    set -euxo pipefail
+    set -euo pipefail
 
     export LC_COLLATE="C"
 
-    VARIANT=$(echo "{{compose_file}}" | sed -re 's/\.yaml$//')
+    variant=$(echo "{{compose_file}}" | sed -re 's/\.yaml$//')
 
     ARGS="--unified-core --cachedir=cache --repo=repo --dry-run"
-
-    if [[ {{force_nocache}} == "true" ]]; then
-        ARGS+=" --force-nocache"
-    fi
+    [[ {{force_nocache}} == "true" ]] && ARGS+=" --force-nocache"
 
     CMD="rpm-ostree"
-    if [[ ${EUID} -ne 0 ]]; then
-        CMD="sudo rpm-ostree"
-    fi
+    [[ ${EUID} -ne 0 ]] && CMD="sudo rpm-ostree"
 
     ${CMD} compose tree ${ARGS} {{compose_file}} \
         | grep '^  ' | sed -re 's/^\s+//' -e 's/\ (.*)$//' -e 's/\.fc39.*//' \
-            > packages.${VARIANT}
+            > packages.${variant}
+
+    if [[ -f packages.${variant}.before ]]; then
+        ADDED=$(comm -13 packages.${variant}.before packages.${variant})
+        REMOVED=$(comm -23 packages.${variant}.before packages.${variant})
+        if [[ -n "$ADDED" ]]; then
+            echo "Packages added:" $(echo "$ADDED" | wc -l)
+            echo "$ADDED" | sed -re 's/^/  /'
+        fi
+        if [[ -n "$REMOVED" ]]; then
+            echo "Packages removed:" $(echo "$REMOVED" | wc -l)
+            echo "$REMOVED" | sed -re 's/^/  /'
+        fi
+    fi
 
     just fix-perms
 
-registry:
-    podman run --rm --detach --pull always --publish 5000:5000 --volume ~/docker-registry:/var/lib/registry --name registry registry:latest || true
-
 compose-image compose_file:
     #!/bin/bash
-    set -euxo pipefail
+    set -euo pipefail
 
     just prep
     just registry
 
-    VARIANT=$(echo "{{compose_file}}" | sed -re 's/\.yaml$//')
+    variant=$(echo "{{compose_file}}" | sed -re 's/\.yaml$//')
 
-    ARGS="--cachedir cache --format=registry --initialize-mode=if-not-exists"
+    # ARGS="--cachedir cache --format=registry --initialize-mode=if-not-exists"
 
-    if [[ {{force_nocache}} == "true" ]]; then
-        ARGS+=" --force-nocache"
-    fi
+    ARGS="--cachedir cache --format=registry --initialize-mode=always"
+    [[ {{force_nocache}} == "true" ]] && ARGS+=" --force-nocache"
 
     CMD="rpm-ostree"
-    if [[ ${EUID} -ne 0 ]]; then
-        CMD="sudo rpm-ostree"
-    fi
+    [[ ${EUID} -ne 0 ]] && CMD="sudo rpm-ostree"
 
-    ${CMD} compose image ${ARGS} {{compose_file}} "localhost:5000/fedora-${VARIANT}"
+    ${CMD} compose image ${ARGS} {{compose_file}} "localhost:5000/${variant}"
 
     just fix-perms
 
@@ -103,8 +105,14 @@ layer-image container_tag:
 
 fix-perms:
     #!/bin/bash
-    set -euxo pipefail
+    set -euo pipefail
 
     if [[ ${EUID} -ne 0 ]]; then
-        sudo chown --recursive "$(id --user --name):$(id --group --name)" cache repo
+        fd --no-ignore --owner root --exec sudo chown "$(id --user --name):$(id --group --name)" {}
     fi
+
+registry:
+    #!/bin/bash
+    set -euo pipefail
+
+    podman container inspect registry >/dev/null 2>&1 || podman run --rm --detach --pull always --publish 5000:5000 --volume ~/docker-registry:/var/lib/registry --name registry registry:latest

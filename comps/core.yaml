@@ -7,8 +7,8 @@ packages:
   - coreutils
   - curl
   # - dhcp-client
-  # - dnf  # we are using rpm-ostree
-  # - e2fsprogs
+  # - dnf
+  - e2fsprogs
   - filesystem
   - glibc
   - hostname
