@@ -53,7 +53,6 @@ jobs:
       - name: Build ostree container
         run: |
           rpm-ostree compose image --format=registry --initialize-mode if-not-exists ${{ matrix.os }}.yaml ${{ env.registry }}/${{ github.repository_owner }}/${{ matrix.os }}
-          podman push ${{ env.registry }}/${{ github.repository_owner }}/${{ matrix.os }} ${{ env.registry }}/${{ github.repository_owner }}/${{ matrix.os }}:39
 
       - name: Log out of registry
         run: podman logout ${{ env.registry }}/${{ github.repository_owner }}
