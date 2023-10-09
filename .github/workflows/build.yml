@@ -34,7 +34,7 @@ jobs:
         os:
           - fedora-minimal
           - fedora-custom
-          # - fedora-silverblue
+          - fedora-silverblue
 
     container:
       image: quay.io/fedora/fedora-minimal:39
@@ -47,13 +47,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Log in to registry
-        run: podman login --username ${{ github.actor }} --password ${{ github.token }} ${{ env.registry }}/${{ github.repository_owner }}
-
       - name: Build ostree container
         run: |
           mkdir -p cache
-          rpm-ostree compose image --format=registry --initialize-mode if-not-exists --cachedir cache ${{ matrix.os }}.yaml ${{ env.registry }}/${{ github.repository_owner }}/${{ matrix.os }}
+          rpm-ostree compose image --format=ociarchive --initialize --cachedir cache ${{ matrix.os }}.yaml ${{ matrix.os }}.ociarchive
+
+      - name: Log in to registry
+        run: podman login --username ${{ github.actor }} --password ${{ github.token }} ${{ env.registry }}/${{ github.repository_owner }}
+
+      - name: Push ostree container
+        run: |
+          skopeo copy oci-archive:${{ matrix.os }}.ociarchive docker://${{ env.registry }}/${{ github.repository_owner }}/${{ matrix.os }}
 
       - name: Log out of registry
         run: podman logout ${{ env.registry }}/${{ github.repository_owner }}

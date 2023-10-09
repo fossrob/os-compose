@@ -6,3 +6,4 @@ packages.*
 repo
 sysroot
 venv
+*.ociarchive
