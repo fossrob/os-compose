@@ -1,6 +1,6 @@
 ARG FEDORA_VERSION=${FEDORA_VERSION:-39}
 
-FROM quay.io/fedora/fedora-minimal:${FEDORA_VERSION}
+FROM quay.io/fedora/fedora-minimal:${FEDORA_VERSION} AS build
 
 ARG FEDORA_VERSION
 
@@ -26,3 +26,7 @@ RUN find /var/cache/akmods -type f -name '*.rpm' -exec cp {} /rpms/ \;
 RUN dnf clean all
 
 RUN chmod 1777 /tmp /var/tmp
+
+FROM scratch
+
+COPY --from=build /rpms /rpms
