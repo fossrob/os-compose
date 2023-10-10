@@ -1,0 +1,43 @@
+# hardware-support group
+packages:
+  # default packages
+  - alsa-sof-firmware
+  - amd-gpu-firmware
+  - atheros-firmware
+  - b43-fwcutter
+  - b43-openfwwf
+  - brcmfmac-firmware
+  - intel-gpu-firmware
+  - iwlegacy-firmware
+  - iwlwifi-dvm-firmware
+  - iwlwifi-mvm-firmware
+  - libertas-firmware
+  - mt7xxx-firmware
+  - nvidia-gpu-firmware
+  - realtek-firmware
+  - usb_modeswitch
+  # optional packages
+  # - acpi
+  # - acpitool
+  # - alsa-firmware
+  # - atmel-firmware
+  # - cmospwd
+  # - dvb-firmware
+  # - gpsd
+  # - gpsd-clients
+  # - hddtemp
+  # - hdparm
+  # - iscan-firmware
+  # - libifp
+  # - liquidio-firmware
+  # - lsscsi
+  # - mlxsw_spectrum-firmware
+  # - mrvlprestera-firmware
+  # - multican
+  # - netronome-firmware
+  # - opensc
+  # - pcsc-lite
+  # - pcsc-lite-ccid
+  # - radeontop
+  # - wpan-tools
+  # - zd1211-firmware

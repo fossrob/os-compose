@@ -14,9 +14,9 @@ import argparse, yaml
 import libcomps
 
 # function to write comps group to yaml file
-def output_group(group, packages):
+def output_group(group, packages, dest):
 
-    with open(f'comps/{group}.yaml', 'w') as f:
+    with open(f'{dest}/{group}.yaml', 'w') as f:
         # write group header
         f.write("# {} group\n".format(group))
         f.write("packages:\n")
@@ -35,6 +35,7 @@ def output_group(group, packages):
 
 # argument parser
 parser = argparse.ArgumentParser()
+parser.add_argument("--dest", help="destination directory", default="comps-standard", required=False)
 parser.add_argument("--source", help="source xml.in file", default="fedora-comps/comps-f39.xml.in", required=False)
 parser.add_argument("--environment", help="dnf environment", default="workstation-product-environment", required=False)
 args = parser.parse_args()
@@ -52,14 +53,14 @@ mandatory_groups = filtered.environments[args.environment].group_ids
 optional_groups = filtered.environments[args.environment].option_ids
 
 # set the environment
-print("# {}".format(args.environment))
+print(f"# {args.environment}")
 print("include:")
 print("  # mandatory groups")
 for g in mandatory_groups:
-    print("  - comps/{}.yaml".format(g.name))
+    print(f"  - {args.dest}/{g.name}.yaml")
 print("  # optional groups")
 for g in optional_groups:
-    print("  # - comps/{}.yaml".format(g.name))
+    print(f"  # - {args.dest}/{g.name}.yaml")
 
 # iterate through groups pulling out mandatory and default packages
 group_packages = {}
@@ -87,4 +88,4 @@ for group_id in list(mandatory_groups) + list(optional_groups):
         else:
             continue
 
-    output_group(group_id.name, group_packages[group_id.name])
+    output_group(group_id.name, group_packages[group_id.name], args.dest)

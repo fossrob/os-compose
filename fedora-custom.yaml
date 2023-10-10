@@ -5,14 +5,13 @@ basearch: x86_64
 repos:
   - fedora
   - fedora-updates
-  - fedora-updates-testing
   - fedora-cisco-openh264
   - rpmfusion-free
   - rpmfusion-free-updates
-  - rpmfusion-free-updates-testing
+  - rpmfusion-free-updates-testing  # remove after fedora 39 stable launch
   - rpmfusion-nonfree
   - rpmfusion-nonfree-updates
-  - rpmfusion-nonfree-updates-testing
+  - rpmfusion-nonfree-updates-testing  # remove after fedora 39 stable launch
   - tailscale-stable
 
 recommends: true
@@ -60,8 +59,6 @@ packages:
   - gnome-shell-extension-appindicator
   - gnome-tweaks
   - plymouth
-  # - adw-gtk3-theme
-  # - input-leap
 # useful tools (fd-find, fzf, the_silver_searcher: dev container rather?)
   - binutils  # used during initramfs build for strip by rpm-ostree
   - dnf5

@@ -1,0 +1,7 @@
+# firefox group
+packages:
+  # mandatory packages
+  - fedora-bookmarks
+  - firefox
+  # default packages
+  - libglvnd-gles

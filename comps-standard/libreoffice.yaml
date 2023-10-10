@@ -1,0 +1,13 @@
+# libreoffice group
+packages:
+  # mandatory packages
+  - libreoffice-calc
+  - libreoffice-emailmerge
+  - libreoffice-graphicfilter
+  - libreoffice-impress
+  - libreoffice-writer
+  # optional packages
+  # - libreoffice-base
+  # - libreoffice-draw
+  # - libreoffice-math
+  # - libreoffice-pyuno

@@ -4,7 +4,7 @@ force_nocache := "false"
 # podman image save ghcr.io/ublue-os/akmods:main-39 | tar xv --to-stdout '*.tar' --exclude layer.tar | tar xv
 
 container-list container:
-    podman pull --quiet {{container}}
+    podman pull --quiet {{container}} || true
     podman image save {{container}} | tar --extract --to-stdout --exclude layer.tar '*.tar' | tar --list --verbose
 
 comps-sync:

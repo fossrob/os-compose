@@ -1,0 +1,10 @@
+# container-management group
+packages:
+  # default packages
+  - podman
+  # optional packages
+  # - buildah
+  # - flatpak
+  # - flatpak-builder
+  # - skopeo
+  # - toolbox

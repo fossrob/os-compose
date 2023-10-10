@@ -44,6 +44,7 @@ packages:
   - bc
   - bind-utils
   - bluez-cups
+  - bootupd
   - brcmfmac-firmware
   - btrfs-progs
   - buildah
@@ -304,14 +305,14 @@ packages:
 
 exclude-packages:
   - PackageKit
+  - gstreamer1-plugin-openh264
+  - mozilla-openh264
+  - openh264
   - dnf
   - dnf-data
   - dnf-plugins-core
   - dnf5
   - dnf5-plugins
-  - gstreamer1-plugin-openh264
-  - mozilla-openh264
-  - openh264
 
 check-groups:
   filename: group
