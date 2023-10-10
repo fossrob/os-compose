@@ -95,6 +95,7 @@ exclude-packages:
   - qemu-user-static  # not using other arch containers, recommended by containers-common-extra
   - rygel  # upnp media server, recommended by gnome-control-center
   - sane-backends-drivers-cameras  # recommended by sane-backends-libs
+  - systemd-networkd  # recommended by systemd, we are using networkmanager
 
 add-files:
   - ["tailscale.repo", "/etc/yum.repos.d/tailscale.repo"]
@@ -147,14 +148,19 @@ selinux: true
 tmp-is-dir: true
 
 postprocess:
-  - |
-    #!/usr/bin/env bash
+  # Taken from https://github.com/coreos/fedora-coreos-config/blob/aa4373201f415baff85701f7f96ab0583931af6c/overlay.d/05core/usr/lib/systemd/journald.conf.d/10-coreos-persistent.conf#L5
+  # Hardcode persistent journal by default. journald has this "auto" behaviour
+  # that only makes logs persistent if `/var/log/journal` exists, which it won't
+  # on first boot because `/var` isn't fully populated. We should be able to get
+  # rid of this once we move to sysusers and create the dir in the initrd.
+  - | #!/usr/bin/env bash
+    mkdir -p /usr/lib/systemd/journald.conf.d/
+    cat >/usr/lib/systemd/journald.conf.d/10-persistent.conf << EOF
+    [Journal]
+    Storage=persistent
+    EOF
+  - | #!/usr/bin/env bash
     set -xeuo pipefail
-
-    # Work around https://bugzilla.redhat.com/show_bug.cgi?id=1265295
-    # From https://github.com/coreos/fedora-coreos-config/blob/testing-devel/overlay.d/05core/usr/lib/systemd/journald.conf.d/10-coreos-persistent.conf
-    install -dm0755 /usr/lib/systemd/journald.conf.d/
-    echo -e "[Journal]\nStorage=persistent" > /usr/lib/systemd/journald.conf.d/10-persistent.conf
 
     # See: https://src.fedoraproject.org/rpms/glibc/pull-request/4
     # Basically that program handles deleting old shared library directories

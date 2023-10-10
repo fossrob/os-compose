@@ -42,17 +42,20 @@ jobs:
 
     steps:
       - name: Install dependencies
-        run: dnf5 --setopt=install_weak_deps=false install -y distribution-gpg-keys fuse-overlayfs git-core just podman rpm-ostree selinux-policy-targeted tar
+        run: |
+          dnf5 --setopt=install_weak_deps=false install -y distribution-gpg-keys fuse-overlayfs git-core just podman rpm-ostree selinux-policy-targeted tar
 
       - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Log in to registry
-        run: podman login --username ${{ github.actor }} --password ${{ github.token }} ${{ env.registry }}/${{ github.repository_owner }}
+        run: |
+          podman login --username ${{ github.actor }} --password ${{ github.token }} ${{ env.registry }}/${{ github.repository_owner }}
 
       - name: Build ostree container
         run: |
           rpm-ostree compose image --format=registry --initialize-mode if-not-exists ${{ matrix.os }}.yaml ${{ env.registry }}/${{ github.repository_owner }}/${{ matrix.os }}:39
 
       - name: Log out of registry
-        run: podman logout ${{ env.registry }}/${{ github.repository_owner }}
+        run: |
+          podman logout ${{ env.registry }}/${{ github.repository_owner }}
