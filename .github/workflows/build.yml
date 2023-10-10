@@ -33,6 +33,7 @@ jobs:
       matrix:
         os:
           - fedora-minimal
+          - fedora-builder
           - fedora-custom
           - fedora-silverblue
 
