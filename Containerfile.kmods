@@ -1,0 +1,28 @@
+ARG FEDORA_VERSION=${FEDORA_VERSION:-39}
+
+FROM quay.io/fedora/fedora-minimal:${FEDORA_VERSION}
+
+ARG FEDORA_VERSION
+
+RUN ln -s /usr/bin/dnf5 /usr/bin/dnf
+
+RUN mkdir -p /rpms && mkdir -p /var/lib/alternatives
+
+RUN dnf upgrade -y && dnf install -y distribution-gpg-keys
+
+RUN dnf install -y \
+      https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+      https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
+ADD https://copr.fedorainfracloud.org/coprs/ublue-os/akmods/repo/fedora-${FEDORA_VERSION}/ublue-os-akmods-fedora-${FEDORA_VERSION}.repo \
+      /etc/yum.repos.d/ublue-os-akmods-fedora-${FEDORA_VERSION}.repo
+
+RUN dnf --setopt=install_weak_deps=false install -y kernel kernel-devel akmods akmod-nvidia akmod-v4l2loopback akmod-openrazer
+
+RUN akmods --force --kernels "$(rpm -q kernel --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}')"
+
+RUN find /var/cache/akmods -type f -name '*.rpm' -exec cp {} /rpms/ \;
+
+RUN dnf clean all
+
+RUN chmod 1777 /tmp /var/tmp

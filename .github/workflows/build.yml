@@ -18,14 +18,14 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  registry: ghcr.io
+  gh_registry: ghcr.io
 
 permissions:
   contents: read
   packages: write
 
 jobs:
-  build:
+  compose:
     runs-on: ubuntu-latest
 
     strategy:
@@ -36,9 +36,11 @@ jobs:
           - fedora-builder
           - fedora-custom
           - fedora-silverblue
+        version:
+          - 39
 
     container:
-      image: quay.io/fedora/fedora-minimal:39
+      image: quay.io/fedora/fedora-minimal:${{ matrix.version }}
       options: '--user root --privileged -v /var/tmp:/var/tmp -v /tmp:/tmp'
 
     steps:
@@ -49,14 +51,54 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Generate variables
+        run: |
+          echo "datestamp=$(date +%Y%m%d)" >> $GITHUB_ENV
+          echo "registry=${{ env.gh_registry }}/${{ github.repository_owner }}" >> $GITHUB_ENV
+          echo "image=${{ matrix.os }}:${{ matrix.version }}" >> $GITHUB_ENV
+
       - name: Log in to registry
         run: |
-          podman login --username ${{ github.actor }} --password ${{ github.token }} ${{ env.registry }}/${{ github.repository_owner }}
+          podman login --username ${{ github.actor }} --password ${{ github.token }} ${registry}
 
       - name: Build ostree container
         run: |
-          rpm-ostree compose image --format=registry --initialize-mode if-not-exists ${{ matrix.os }}.yaml ${{ env.registry }}/${{ github.repository_owner }}/${{ matrix.os }}:39
+          rpm-ostree compose image --format=registry --initialize-mode if-not-exists ${{ matrix.os }}.yaml ${registry}/${image}
 
       - name: Log out of registry
         run: |
-          podman logout ${{ env.registry }}/${{ github.repository_owner }}
+          podman logout ${registry}
+
+  build-kmods:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ kmods ]
+        version: [ 39 ]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Generate variables
+        run: |
+          echo "datestamp=$(date +%Y%m%d)" >> $GITHUB_OUTPUT
+          echo "registry=${{ env.gh_registry }}/${{ github.repository_owner }}" >> $GITHUB_ENV
+          echo "image=${{ matrix.os }}:${{ matrix.version }}" >> $GITHUB_ENV
+
+      - name: Log in to registry
+        run: |
+          podman login --username ${{ github.actor }} --password ${{ github.token }} ${registry}
+
+      - name: Build container
+        run: |
+          podman build --build-arg FEDORA_VERSION=${{ matrix.version }} --tag ${image} --file Containerfile.${{ matrix.os }}
+
+      - name: Push container
+        run: |
+          podman push ${image} ${registry}/${image}
+
+      - name: Log out of registry
+        run: |
+          podman logout ${registry}

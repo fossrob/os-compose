@@ -5,6 +5,7 @@ basearch: x86_64
 repos:
   - fedora
   - fedora-updates
+  - fedora-updates-testing
   - rpmfusion-free
   - rpmfusion-free-updates
   - rpmfusion-free-updates-testing
@@ -16,24 +17,7 @@ repos:
 recommends: true
 
 packages:
-# boot
-  - efibootmgr
-  - grub2
-  - grub2-efi-x64
-  - shim
-# dracut
-  - binutils
-  - memstrack
-  - pigz
-# kernel
   - kernel
-  - kernel-modules
-  - kernel-modules-extra
-# workstation-ostree-support
-  - nss-altfiles
-  - ostree-grub2
-  - rpm-ostree
-# kmods
   - kernel-devel
   - akmods
   - akmod-nvidia
@@ -45,11 +29,11 @@ exclude-packages: []
 # minimal-environment
 include:
   # mandatory groups
-  - comps/core.yaml
+  - comps-standard/core.yaml
   # optional groups
-  # - comps/standard.yaml
-  # - comps/guest-agents.yaml
-  # - comps/networkmanager-submodules.yaml
+  # - comps-standard/standard.yaml
+  # - comps-standard/guest-agents.yaml
+  # - comps-standard/networkmanager-submodules.yaml
 
 check-groups:
   filename: group
