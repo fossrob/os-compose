@@ -31,8 +31,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ kmods ]
-        version: [ 39 ]
+        os:
+          - fedora-kmods
+        version:
+          - 39
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
