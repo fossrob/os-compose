@@ -51,7 +51,7 @@ jobs:
 
       - name: Build and push container
         run: |
-          podman build --build-arg FEDORA_VERSION=${{ matrix.version }} --tag ${image} --file Containerfile.${{ matrix.os }}
+          podman build --no-cache --build-arg FEDORA_VERSION=${{ matrix.version }} --tag ${image} --file Containerfile.${{ matrix.os }}
           podman push ${image} ${registry}/${image}
 
       - name: Log out of registry
@@ -78,7 +78,12 @@ jobs:
     steps:
       - name: Install dependencies
         run: |
-          dnf5 --setopt=install_weak_deps=false install -y distribution-gpg-keys fuse-overlayfs git-core just podman rpm-ostree selinux-policy-targeted tar
+          dnf5 makecache
+          ARGS="--assumeyes --setopt install_weak_deps=false"
+          if [[ "$(dnf5 repoquery rpm-ostree --quiet --queryformat '%{version}')" == 2023.7 ]]; then
+            ARGS+=" --enablerepo updates-testing"
+          fi
+          dnf5 install ${ARGS} distribution-gpg-keys fuse-overlayfs git-core just podman rpm-ostree selinux-policy-targeted tar
 
       - name: Checkout repository
         uses: actions/checkout@v3
