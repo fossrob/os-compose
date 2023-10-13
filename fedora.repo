@@ -1,23 +1,35 @@
 [fedora]
 name=Fedora $releasever - $basearch
-metalink=https://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch
+baseurl=https://dl.fedoraproject.org/pub/fedora/linux/development/$releasever/Everything/$basearch/os/
+        https://dl.fedoraproject.org/pub/fedora-secondary/development/$releasever/Everything/$basearch/os/
+# baseurl=https://dl.fedoraproject.org/pub/fedora/linux/releases/$releasever/Everything/$basearch/os/
+#         https://dl.fedoraproject.org/pub/fedora-secondary/releases/$releasever/Everything/$basearch/os/
+# metalink=https://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch
 enabled=1
 gpgcheck=1
+metadata_expire=1h
 
 [fedora-updates]
 name=Fedora $releasever - $basearch - Updates
-metalink=https://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch
+baseurl=https://dl.fedoraproject.org/pub/fedora/linux/updates/$releasever/Everything/$basearch/
+        https://dl.fedoraproject.org/pub/fedora-secondary/updates/$releasever/Everything/$basearch/
+# metalink=https://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch
 enabled=1
 gpgcheck=1
+metadata_expire=1h
 
 [fedora-updates-testing]
 name=Fedora $releasever - $basearch - Test Updates
-metalink=https://mirrors.fedoraproject.org/metalink?repo=updates-testing-f$releasever&arch=$basearch
+baseurl=https://dl.fedoraproject.org/pub/fedora/linux/updates/testing/$releasever/Everything/$basearch/
+        https://dl.fedoraproject.org/pub/fedora-secondary/updates/testing/$releasever/Everything/$basearch/
+# metalink=https://mirrors.fedoraproject.org/metalink?repo=updates-testing-f$releasever&arch=$basearch
 enabled=1
 gpgcheck=1
+metadata_expire=1h
 
 [fedora-cisco-openh264]
 name=Fedora $releasever openh264 (From Cisco) - $basearch
 metalink=https://mirrors.fedoraproject.org/metalink?repo=fedora-cisco-openh264-$releasever&arch=$basearch
 enabled=1
 gpgcheck=1
+metadata_expire=1h

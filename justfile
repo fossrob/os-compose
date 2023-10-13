@@ -9,7 +9,7 @@ container-list container:
 
 comps-sync:
     #!/bin/bash
-    set -euo pipefail
+    set -euxo pipefail
 
     if [[ ! -d fedora-comps ]]; then
         git clone https://pagure.io/fedora-comps.git
@@ -22,13 +22,13 @@ comps-sync:
 
 manifest compose_file:
     #!/bin/bash
-    set -euo pipefail
+    set -euxo pipefail
 
     yq -y . <<<$(rpm-ostree compose tree --print-only --repo=repo {{compose_file}})
 
 packages compose_file:
     #!/bin/bash
-    set -euo pipefail
+    set -euxo pipefail
 
     echo "packages:"
     yq -y . <<<$(rpm-ostree compose tree --print-only --repo=repo {{compose_file}} | jq .packages)
@@ -49,7 +49,7 @@ prep:
 
 dry-run compose_file:
     #!/bin/bash
-    set -euo pipefail
+    set -euxo pipefail
 
     export LC_COLLATE="C"
 
@@ -82,7 +82,7 @@ dry-run compose_file:
 
 compose-image compose_file:
     #!/bin/bash
-    set -euo pipefail
+    set -euxo pipefail
 
     just prep
     just registry
@@ -103,7 +103,7 @@ compose-image compose_file:
 
 compose-archive compose_file:
     #!/bin/bash
-    set -euo pipefail
+    set -euxo pipefail
 
     just prep
     just registry
@@ -124,7 +124,7 @@ compose-archive compose_file:
 
 layer-image container_file:
     #!/bin/bash
-    set -euo pipefail
+    set -euxo pipefail
 
     just registry
 
@@ -135,7 +135,7 @@ layer-image container_file:
 
 fix-perms:
     #!/bin/bash
-    set -euo pipefail
+    set -euxo pipefail
 
     if [[ ${EUID} -ne 0 ]]; then
         fd --no-ignore --owner root --exec sudo chown "$(id --user --name):$(id --group --name)" {}
@@ -143,6 +143,12 @@ fix-perms:
 
 registry:
     #!/bin/bash
-    set -euo pipefail
+    set -euxo pipefail
 
     podman container inspect registry >/dev/null 2>&1 || podman run --rm --detach --pull always --publish 5000:5000 --volume ~/docker-registry:/var/lib/registry --name registry registry:latest
+
+podman:
+    podman run --rm -ti --volume $PWD:/srv:rw --workdir /srv --privileged quay.io/fedora-ostree-desktops/buildroot
+
+podman-pull:
+    podman pull quay.io/fedora-ostree-desktops/buildroot

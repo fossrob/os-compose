@@ -5,6 +5,7 @@ basearch: x86_64
 repos:
   - fedora
   - fedora-updates
+  # - fedora-updates-testing
   - fedora-cisco-openh264
   - rpmfusion-free
   - rpmfusion-free-updates
@@ -53,10 +54,11 @@ packages:
   - gstreamer1-plugins-bad-freeworld
   - gstreamer1-plugins-ugly
   - gstreamer1-vaapi
-  - pipewire-codec-aptx
+  # - pipewire-codec-aptx
 # desktop
   - gnome-console
   - gnome-shell-extension-appindicator
+  - gnome-shell-extension-caffeine
   - gnome-tweaks
   - plymouth
 # useful tools (fd-find, fzf, the_silver_searcher: dev container rather?)
