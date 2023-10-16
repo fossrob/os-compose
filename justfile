@@ -3,10 +3,16 @@ force_nocache := "false"
 
 # podman image save ghcr.io/ublue-os/akmods:main-39 | tar xv --to-stdout '*.tar' --exclude layer.tar | tar xv
 
+# test kmod build
+test-kmods:
+    podman build --no-cache --build-arg FEDORA_VERSION=39 --tag fedora-kmods:39 --file Containerfile.fedora-kmods
+    just container-list fedora-kmods:39
+
+# list contents of container image
 container-list container:
-    podman pull --quiet {{container}} || true
     podman image save {{container}} | tar --extract --to-stdout --exclude layer.tar '*.tar' | tar --list --verbose
 
+# fetch updated official fedora comps
 comps-sync:
     #!/bin/bash
     set -euxo pipefail
@@ -20,22 +26,18 @@ comps-sync:
         popd > /dev/null || exit 1
     fi
 
+# print out the manifest resolving all includes
 manifest compose_file:
-    #!/bin/bash
-    set -euxo pipefail
+    yq --output-format=yaml --prettyPrint . <<<$(rpm-ostree compose tree --print-only --repo=repo {{compose_file}})
 
-    yq -y . <<<$(rpm-ostree compose tree --print-only --repo=repo {{compose_file}})
-
+# print out just packages from manifest
 packages compose_file:
-    #!/bin/bash
-    set -euxo pipefail
+    yq --output-format=yaml --prettyPrint '.packages' <<<$(rpm-ostree compose tree --print-only --repo=repo {{compose_file}})
 
-    echo "packages:"
-    yq -y . <<<$(rpm-ostree compose tree --print-only --repo=repo {{compose_file}} | jq .packages)
-
+# prepare folders for rpm-ostree compose
 prep:
     #!/bin/bash
-    set -euo pipefail
+    set -euxo pipefail
 
     mkdir -p repo cache
     if [[ ! -f "repo/config" ]]; then
@@ -47,6 +49,7 @@ prep:
     # Set option to reduce fsync for transient builds
     ostree --repo=repo config set 'core.fsync' 'false'
 
+# perform a dry-run to depsolve package list
 dry-run compose_file:
     #!/bin/bash
     set -euxo pipefail
@@ -80,6 +83,7 @@ dry-run compose_file:
 
     just fix-perms
 
+# compose an image uploading directly to localhost:5000/${variant}
 compose-image compose_file:
     #!/bin/bash
     set -euxo pipefail
@@ -101,6 +105,7 @@ compose-image compose_file:
 
     just fix-perms
 
+# compose an image with interim ${variant}.ociarchive then copy to localhost:5000/${variant}
 compose-archive compose_file:
     #!/bin/bash
     set -euxo pipefail
@@ -122,17 +127,7 @@ compose-archive compose_file:
 
     just fix-perms
 
-layer-image container_file:
-    #!/bin/bash
-    set -euxo pipefail
-
-    just registry
-
-    container_tag=$(echo "{{container_file}}" | sed -re 's/^Containerfile\.//')
-
-    podman build --tag fedora-test:${container_tag} --file {{container_file}}
-    podman push fedora-test:${container_tag} localhost:5000/fedora-test:${container_tag}
-
+# fix permissions of local directories if commands have been run with sudo instead of inside a podman container
 fix-perms:
     #!/bin/bash
     set -euxo pipefail
@@ -141,14 +136,13 @@ fix-perms:
         fd --no-ignore --owner root --exec sudo chown "$(id --user --name):$(id --group --name)" {}
     fi
 
+# start a basic local docker registry
 registry:
     #!/bin/bash
     set -euxo pipefail
 
     podman container inspect registry >/dev/null 2>&1 || podman run --rm --detach --pull always --publish 5000:5000 --volume ~/docker-registry:/var/lib/registry --name registry registry:latest
 
+# enter a podman build  env
 podman:
-    podman run --rm -ti --volume $PWD:/srv:rw --workdir /srv --privileged quay.io/fedora-ostree-desktops/buildroot
-
-podman-pull:
-    podman pull quay.io/fedora-ostree-desktops/buildroot
+    podman run --pull=newer --rm -ti --volume $PWD:/srv:rw --workdir /srv --privileged quay.io/fedora-ostree-desktops/buildroot
