@@ -84,7 +84,6 @@ packages:
 exclude-packages:
   - PackageKit
   - PackageKit-glib
-  - adobe-source-code-pro-fonts  # recommended by gsettings-desktop-schemas
   - braille-printer-app  # removes quite a lot, recommended by cups-filters
   - gdouros-symbola-fonts  # recommended by ibus-typing-booster
   - gnome-color-manager  # recommended by gnome-control-centre
