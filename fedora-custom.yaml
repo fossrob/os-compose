@@ -48,7 +48,7 @@ packages:
   - intel-media-driver
   - mesa-va-drivers-freeworld
   - mesa-vdpau-drivers-freeworld
-  # - nvidia-vaapi-driver
+  # - nvidia-vaapi-driver (added with nvidia driver)
 # software codecs
   - ffmpeg
   - gstreamer1-plugins-bad-freeworld
@@ -61,6 +61,8 @@ packages:
   - gnome-shell-extension-caffeine
   - gnome-tweaks
   - plymouth
+# printing
+  - hplip
 # useful tools (fd-find, fzf, the_silver_searcher: dev container rather?)
   - binutils  # used during initramfs build for strip by rpm-ostree
   - dnf5

@@ -52,7 +52,7 @@ prep:
 # perform a dry-run to depsolve package list
 dry-run compose_file:
     #!/bin/bash
-    set -euxo pipefail
+    set -euo pipefail
 
     export LC_COLLATE="C"
 
@@ -122,6 +122,8 @@ compose-archive compose_file:
     [[ ${EUID} -ne 0 ]] && CMD="sudo rpm-ostree"
 
     ${CMD} compose image ${ARGS} {{compose_file}} ${variant}.ociarchive
+
+    sudo chown "$(id --user --name):$(id --group --name)" ${variant}.ociarchive
 
     skopeo copy oci-archive:fedora-minimal.ociarchive docker://localhost:5000/${variant}
 
