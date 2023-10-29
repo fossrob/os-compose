@@ -48,7 +48,6 @@ packages:
   - intel-media-driver
   - mesa-va-drivers-freeworld
   - mesa-vdpau-drivers-freeworld
-  # - nvidia-vaapi-driver (added with nvidia driver)
 # software codecs
   - ffmpeg
   - gstreamer1-plugins-bad-freeworld
@@ -70,8 +69,6 @@ packages:
   - git-core
   - git-core-doc
   - glibc-langpack-en
-  - jq
-  - just
   - nvme-cli
   - pciutils
   - vim-default-editor
