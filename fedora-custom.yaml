@@ -5,7 +5,7 @@ basearch: x86_64
 repos:
   - fedora
   - fedora-updates
-  # - fedora-updates-testing
+  - fedora-updates-testing
   - fedora-cisco-openh264
   - rpmfusion-free
   - rpmfusion-free-updates
