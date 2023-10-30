@@ -96,7 +96,6 @@ exclude-packages:
 
 add-files:
   - ["tailscale.repo", "/etc/yum.repos.d/tailscale.repo"]
-  - ["terra.repo", "/etc/yum.repos.d/terra.repo"]
   - ["vscode.repo", "/etc/yum.repos.d/vscode.repo"]
 
 # workstation-product-environment
