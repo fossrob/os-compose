@@ -7,6 +7,7 @@ ARG FEDORA_VERSION
 RUN echo "Prepare for build..." && \
       ln -s /usr/bin/dnf5 /usr/bin/dnf && \
       sed -i /etc/yum.repos.d/fedora-cisco-openh264.repo -re 's/enabled=1/enabled=0/' && \
+      sed -i /etc/yum.repos.d/fedora-updates-testing.repo -re 's/enabled=0/enabled=1/' && \
       mkdir -p /rpms && mkdir -p /var/lib/alternatives && \
       dnf install -y distribution-gpg-keys && \
       dnf install -y \
