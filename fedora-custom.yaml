@@ -5,7 +5,7 @@ basearch: x86_64
 repos:
   - fedora
   - fedora-updates
-  - fedora-updates-testing
+  - fedora-updates-testing  # remove after fedora 39 stable launch
   - fedora-cisco-openh264
   - rpmfusion-free
   - rpmfusion-free-updates
@@ -24,7 +24,7 @@ packages:
   - grub2-efi-x64
   - shim
 # dracut
-  - binutils
+  - binutils  # used during initramfs build for strip by rpm-ostree
   - memstrack
   - pigz
 # kernel
@@ -62,8 +62,7 @@ packages:
   - plymouth
 # printing
   - hplip
-# useful tools (fd-find, fzf, the_silver_searcher: dev container rather?)
-  - binutils  # used during initramfs build for strip by rpm-ostree
+# tools
   - dnf5
   - dnf5-plugins
   - git-core
@@ -84,15 +83,15 @@ exclude-packages:
   - PackageKit
   - PackageKit-glib
   - braille-printer-app  # removes quite a lot, recommended by cups-filters
-  - gdouros-symbola-fonts  # recommended by ibus-typing-booster
-  - gnome-color-manager  # recommended by gnome-control-centre
-  - gnome-tour  # recommended by gnome-shell
-  - grubby  # recommended by crypto-policies-scripts
-  - initscripts-service  # recommended by audit
+  - gdouros-symbola-fonts  # gets recommended by ibus-typing-booster
+  - gnome-color-manager  # gets recommended by gnome-control-centre
+  - gnome-tour  # gets recommended by gnome-shell
+  - grubby  # gets recommended by crypto-policies-scripts
+  - initscripts-service  # gets recommended by audit
   - qemu-user-static  # not using other arch containers, recommended by containers-common-extra
   - rygel  # upnp media server, recommended by gnome-control-center
-  - sane-backends-drivers-cameras  # recommended by sane-backends-libs
-  - systemd-networkd  # recommended by systemd, we are using networkmanager
+  - sane-backends-drivers-cameras  # gets recommended by sane-backends-libs
+  - systemd-networkd  # gets recommended by systemd, we are using networkmanager
 
 add-files:
   - ["tailscale.repo", "/etc/yum.repos.d/tailscale.repo"]

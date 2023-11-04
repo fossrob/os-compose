@@ -1,7 +1,0 @@
-[ublue-os-akmods-copr]
-name=Copr repo for akmods owned by ublue-os
-baseurl=https://download.copr.fedorainfracloud.org/results/ublue-os/akmods/fedora-$releasever-$basearch/
-enabled=1
-gpgcheck=1
-repo_gpgcheck=0
-gpgkey=https://download.copr.fedorainfracloud.org/results/ublue-os/akmods/pubkey.gpg
