@@ -45,3 +45,10 @@ baseurl=http://download1.rpmfusion.org/nonfree/fedora/updates/testing/$releaseve
 # metalink=https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-updates-released-$releasever&arch=$basearch
 enabled=1
 gpgcheck=0
+
+[rpmfusion-nonfree-nvidia-driver-source]
+name=RPM Fusion for Fedora $releasever - Nonfree - NVIDIA Driver Source
+baseurl=http://download1.rpmfusion.org/nonfree/fedora/nvidia-driver/$releasever/SRPMS/
+# metalink=https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-nvidia-driver-source-$releasever&arch=$basearch
+enabled=0
+gpgcheck=0

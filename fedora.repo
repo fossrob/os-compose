@@ -23,10 +23,3 @@ baseurl=https://dl.fedoraproject.org/pub/fedora/linux/updates/testing/$releaseve
 # metalink=https://mirrors.fedoraproject.org/metalink?repo=updates-testing-f$releasever&arch=$basearch
 enabled=1
 gpgcheck=1
-
-[fedora-cisco-openh264]
-name=Fedora $releasever openh264 (From Cisco) - $basearch
-baseurl=https://codecs.fedoraproject.org/openh264/$releasever/$basearch/os/
-# metalink=https://mirrors.fedoraproject.org/metalink?repo=fedora-cisco-openh264-$releasever&arch=$basearch
-enabled=1
-gpgcheck=1
