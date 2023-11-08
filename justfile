@@ -3,7 +3,7 @@ build *ARGS: && run
   podman build --file Containerfile.builder --tag fedora-builder:39 {{ARGS}}
 
 run:
-  podman run --rm -it --privileged --workdir /build fedora-builder:39
+  podman run --rm -it --privileged --workdir /build --volume ./rpms:/rpms fedora-builder:39
 
 
 
