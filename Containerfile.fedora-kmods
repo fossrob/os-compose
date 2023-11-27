@@ -14,15 +14,15 @@ RUN echo "Prepare for build..." && \
             https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-${FEDORA_VERSION}.noarch.rpm \
             https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
       && \
+      dnf --setopt=install_weak_deps=false install -y kernel kernel-devel && \
       dnf install -y rpmfusion-nonfree-release-rawhide && \
-      curl -sSl 'https://copr.fedorainfracloud.org/coprs/kwizart/nvidia-driver-rawhide/repo/fedora-rawhide/kwizart-nvidia-driver-rawhide-fedora-rawhide.repo' \
-        | sed -re 's/enabled=1/enabled=0/' -e 's/\[copr:[^:]+/\[/' -e 's/\[:[^:]+:/\[/' > /etc/yum.repos.d/kwizart-nvidia-driver-rawhide-fedora-rawhide.repo && \
       dnf upgrade -y && \
     echo "...done!"
 
-RUN echo "Install dependencies..." && \
-      dnf --setopt=install_weak_deps=false install -y kernel akmod-v4l2loopback && \
-      dnf --setopt=install_weak_deps=false --enablerepo=rpmfusion-nonfree-rawhide install -y akmod-nvidia && \
+RUN echo "Install akmods..." && \
+      dnf --no-gpgchecks --setopt=install_weak_deps=false install -y akmod-v4l2loopback && \
+      sleep 3 && \
+      dnf --no-gpgchecks --setopt=install_weak_deps=false --enablerepo=rpmfusion-nonfree-rawhide install -y akmod-nvidia && \
     echo "...done!"
 
 RUN echo "Build kmods..." && \

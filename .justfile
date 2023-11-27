@@ -1,6 +1,25 @@
 
-build *ARGS: && run
-  podman build --file Containerfile.builder --tag fedora-builder:39 {{ARGS}}
+# show this help
+@help:
+  just --list --unsorted
+
+# build kmods container
+kmod-build:
+    podman build --no-cache --pull --build-arg FEDORA_VERSION=39 --tag fedora-kmods:39 --file Containerfile.fedora-kmods
+
+# test kmod build
+kmod-test: kmod-build
+    just container-list fedora-kmods:39
+
+# list contents of container image
+container-list container:
+    podman image save {{container}} | tar --extract --to-stdout --exclude layer.tar '*.tar' | tar --list --verbose
+
+
+
+
+build *ARGS:
+  podman build --file Containerfile.builder --tag fedora-nvidia-latest:39 {{ARGS}}
 
 run:
   podman run --rm -it --privileged --workdir /build --volume ./rpms:/rpms fedora-builder:39
@@ -17,14 +36,7 @@ force_nocache := "false"
 
 # podman image save ghcr.io/ublue-os/akmods:main-39 | tar xv --to-stdout '*.tar' --exclude layer.tar | tar xv
 
-# test kmod build
-test-kmods:
-    podman build --no-cache --build-arg FEDORA_VERSION=39 --tag fedora-kmods:39 --file Containerfile.fedora-kmods
-    just container-list fedora-kmods:39
 
-# list contents of container image
-container-list container:
-    podman image save {{container}} | tar --extract --to-stdout --exclude layer.tar '*.tar' | tar --list --verbose
 
 # fetch updated official fedora comps
 comps-sync:
