@@ -1,9 +1,9 @@
 ---
-automatic-version-prefix: "39"
+automatic-version-prefix: "40"
 basearch: x86_64
-mutate-os-release: "39"
-ref: fedora/39/x86_64/silverblue
-releasever: 39
+mutate-os-release: "40"
+ref: fedora/40/x86_64/silverblue
+releasever: 40
 
 repos:
   - fedora

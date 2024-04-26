@@ -1,18 +1,18 @@
 ---
-releasever: 39
+releasever: 40
 basearch: x86_64
 
 repos:
   - fedora
   - fedora-updates
-  # - fedora-updates-testing  # remove after fedora 39 stable launch
+  # - fedora-updates-testing  # remove after stable launch
   - fedora-cisco-openh264
   - rpmfusion-free
   - rpmfusion-free-updates
-  # - rpmfusion-free-updates-testing  # remove after fedora 39 stable launch
+  # - rpmfusion-free-updates-testing  # remove after stable launch
   - rpmfusion-nonfree
   - rpmfusion-nonfree-updates
-  # - rpmfusion-nonfree-updates-testing  # remove after fedora 39 stable launch
+  # - rpmfusion-nonfree-updates-testing  # remove after stable launch
   - tailscale-stable
 
 recommends: true

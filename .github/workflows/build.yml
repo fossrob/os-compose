@@ -33,7 +33,7 @@ jobs:
         os:
           - fedora-kmods
         version:
-          - 39
+          - 40
 
     steps:
       - name: Checkout repository
@@ -69,7 +69,7 @@ jobs:
           - fedora-custom
           - fedora-silverblue
         version:
-          - 39
+          - 40
 
     container:
       image: quay.io/fedora/fedora-minimal:${{ matrix.version }}
